@@ -280,14 +280,14 @@ else:
         st.warning(f"No se pudo guardar el backup: {e}")
     
     # CREAR MENSAJE WHATSAPP CON TODOS LOS DATOS
-    mensaje = f"""🏢 *COTIZACIÓN RAMAS SEGUROS* 🏢
+    mensaje = f"""*COTIZACIÓN RAMAS SEGUROS*
 
-🚗 *INFORMACIÓN DEL VEHÍCULO*
+*INFORMACIÓN DEL VEHÍCULO*
 • Patente: {data['patente']}
 • Código Postal: {data['codigo_postal']}
 • Combustible: {data['combustible']}
 
-_*¡Gracias! Espero mi cotización personalizada.*_"""
+_Gracias. Espero mi cotización._"""
     
     mensaje_codificado = quote(mensaje)
     TU_NUMERO_WHATSAPP = "5491136995733"
