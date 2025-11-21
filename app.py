@@ -179,7 +179,7 @@ st.markdown("""
     ¡Cotizá tu Seguro General!
 </h2>
 <p style='text-align: center; font-size: 1.2rem; color: #555;'>
-    Completá el formulario y contactanos directo por WhatsApp con tu cotización personalizada
+    Completá el formulario o contactanos por WhatsApp directamente
 </p>
 """, unsafe_allow_html=True)
 
