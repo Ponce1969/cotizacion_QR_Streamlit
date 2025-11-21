@@ -150,6 +150,20 @@ st.markdown("""
     .block-container {
         background-color: transparent !important;
     }
+    
+    /* OCULTAR MENSAJES DE STREAMLIT EN INGLÉS */
+    /* Ocultar "Press Enter to submit form" */
+    [data-testid="stFormSubmitButton"] + div,
+    .stForm [data-testid="InputInstructions"],
+    [data-testid="InputInstructions"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    /* Ocultar contador de caracteres en inglés */
+    .stTextInput [data-testid="stCaptionContainer"] {
+        display: none !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
