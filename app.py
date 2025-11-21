@@ -208,16 +208,16 @@ if not st.session_state.form_submitted:
         with col1:
             patente = st.text_input(
                 "**Patente** *", 
-                placeholder="Ej: AB123CD",
+                placeholder="Ingresá la patente (Ej: AB123CD)",
                 max_chars=7,
-                help="Formato: ABC123 o AB123CD"
+                help="Formato válido: ABC123 o AB123CD"
             ).upper()
         with col2:
             codigo_postal = st.text_input(
                 "**Código Postal** *", 
-                placeholder="Ej: 1425",
+                placeholder="Ingresá el código postal (Ej: 1425)",
                 max_chars=4,
-                help="Código postal de 4 dígitos"
+                help="Código postal de 4 dígitos (1000-9999)"
             )
         
         combustible = st.radio(
