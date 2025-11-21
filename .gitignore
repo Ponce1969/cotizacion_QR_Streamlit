@@ -12,8 +12,8 @@ ENV/
 # Streamlit
 .streamlit/secrets.toml
 
-# CSV con datos sensibles (opcional - descomenta si no quieres subir los datos)
-# cotizaciones_ramas.csv
+ # CSV con datos sensibles (opcional - descomenta si no quieres subir los datos)
+ cotizaciones_ramas.csv
 
 # IDE
 .vscode/
