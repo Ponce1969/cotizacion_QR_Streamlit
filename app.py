@@ -1,41 +1,88 @@
 import streamlit as st
 import pandas as pd
 import base64
+import re
 from datetime import datetime
 from urllib.parse import quote
 
-# Configuración de la página
+# Configuración de la página MEJORADA
 st.set_page_config(
     page_title="Ramas Seguros Generales",
     page_icon="fotos/favicon.ico",
-    layout="centered"
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-# CSS personalizado
+# CSS personalizado MEJORADO para Safari y móviles
 st.markdown("""
 <style>
-    /* Importar fuente profesional similar a logos corporativos */
+    /* Importar fuente profesional */
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
     
-    /* Fondo amarillo tenue para TODA la página - todas las capas */
-    html, body, [data-testid="stAppViewContainer"], .main {
+    /* RESET PARA SAFARI */
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        font-family: 'Montserrat', sans-serif !important;
+    }
+    
+    /* Fondo amarillo tenue para TODA la página */
+    html, body, [data-testid="stAppViewContainer"], .main, .stApp {
         background: linear-gradient(180deg, #FFFEF7 0%, #FFF9E6 100%) !important;
         font-family: 'Montserrat', sans-serif;
     }
     
-    /* Fondo del contenedor principal de Streamlit */
-    [data-testid="stAppViewContainer"] > .main {
-        background: linear-gradient(180deg, #FFFEF7 0%, #FFF9E6 100%) !important;
+    /* SOLUCIÓN PARA PLACEHOLDERS EN SAFARI */
+    .stTextInput input::placeholder {
+        color: #666 !important;
+        opacity: 1 !important;
+        font-size: 16px !important;
     }
     
-    /* Fondo de toda la app */
-    .stApp {
-        background: linear-gradient(180deg, #FFFEF7 0%, #FFF9E6 100%) !important;
+    /* FORZAR DISPLAY DE LABELS EN SAFARI */
+    .stTextInput label, .stRadio label {
+        display: block !important;
+        visibility: visible !important;
+        font-weight: 600 !important;
+        color: #262730 !important;
+        margin-bottom: 8px !important;
     }
     
-    /* Aplicar fuente a todos los elementos */
-    * {
-        font-family: 'Montserrat', sans-serif !important;
+    /* MEJORAS ESPECÍFICAS PARA SAFARI MOBILE */
+    @media not all and (min-resolution:.001dpcm) { 
+        @supports (-webkit-appearance:none) {
+            .stTextInput input, .stTextInput input::placeholder {
+                font-size: 16px !important;
+                line-height: 1.5 !important;
+            }
+            
+            .stRadio > div {
+                background-color: rgba(255, 254, 247, 0.8) !important;
+                padding: 1rem !important;
+                border-radius: 10px !important;
+                border: 1px solid #FFD700 !important;
+            }
+        }
+    }
+    
+    /* RESPONSIVE PARA MÓVILES */
+    @media only screen and (max-width: 768px) {
+        .main .block-container {
+            padding: 1rem !important;
+        }
+        
+        .header-box {
+            padding: 1.5rem 1rem !important;
+        }
+        
+        .header-box h1 {
+            font-size: 2rem !important;
+        }
+        
+        .header-box p {
+            font-size: 1.1rem !important;
+        }
     }
     
     /* Estilo de botones */
@@ -43,7 +90,7 @@ st.markdown("""
         border-radius: 10px; 
         font-size: 1.1rem;
         font-weight: 600;
-        font-family: 'Montserrat', sans-serif !important;
+        min-height: 3rem;
     }
     
     /* Botón WhatsApp verde */
@@ -55,17 +102,6 @@ st.markdown("""
     .stButton>button[kind="primary"]:hover {
         background-color: #128C7E !important;
         border-color: #128C7E !important;
-    }
-    
-    /* Caja de éxito */
-    .success-box {
-        background: linear-gradient(135deg, #d4edda, #c3e6cb);
-        color: #155724;
-        padding: 2rem;
-        border-radius: 15px;
-        border: 2px solid #28a745;
-        margin: 1.5rem 0;
-        text-align: center;
     }
     
     /* Header amarillo */
@@ -85,32 +121,22 @@ st.markdown("""
         font-weight: 700 !important;
     }
     
-    p, label, span, div {
-        font-family: 'Montserrat', sans-serif !important;
-    }
-    
-    /* Inputs del formulario */
-    .stTextInput input, .stRadio label {
-        font-family: 'Montserrat', sans-serif !important;
-    }
-    
-    /* Cambiar fondo de contenedores y formularios */
-    .stForm {
-        background-color: rgba(255, 254, 247, 0.6) !important;
-        border: 1px solid rgba(255, 215, 0, 0.2) !important;
-        border-radius: 15px !important;
-        padding: 1.5rem !important;
-    }
-    
-    /* Fondo de inputs */
+    /* Inputs mejorados */
     .stTextInput > div > div > input {
         background-color: #FFFEF7 !important;
         border: 1px solid #FFD700 !important;
+        border-radius: 8px !important;
+        padding: 0.75rem !important;
+        font-size: 16px !important;
     }
     
-    /* Contenedor principal de la app */
-    .block-container {
-        background-color: transparent !important;
+    /* Contenedor de formulario */
+    .stForm {
+        background-color: rgba(255, 254, 247, 0.8) !important;
+        border: 1px solid rgba(255, 215, 0, 0.3) !important;
+        border-radius: 15px !important;
+        padding: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
     }
     
     /* Cajas de radio buttons */
@@ -118,6 +144,11 @@ st.markdown("""
         background-color: rgba(255, 254, 247, 0.4) !important;
         padding: 1rem !important;
         border-radius: 10px !important;
+    }
+    
+    /* Contenedor principal */
+    .block-container {
+        background-color: transparent !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -156,35 +187,74 @@ st.markdown("""
 if 'form_submitted' not in st.session_state:
     st.session_state.form_submitted = False
 
+# Funciones de validación
+def validar_patente(patente):
+    """Valida formato de patente argentina (vieja y nueva)"""
+    # Formato viejo: ABC123 o formato nuevo: AB123CD
+    patron_viejo = r'^[A-Z]{3}\d{3}$'
+    patron_nuevo = r'^[A-Z]{2}\d{3}[A-Z]{2}$'
+    return bool(re.match(patron_viejo, patente) or re.match(patron_nuevo, patente))
+
+def validar_codigo_postal(cp):
+    """Valida que sea un código postal argentino válido"""
+    return cp.isdigit() and 1000 <= int(cp) <= 9999
+
 if not st.session_state.form_submitted:
-    # FORMULARIO PRINCIPAL
+    # FORMULARIO PRINCIPAL MEJORADO
     with st.form("formulario_cotizacion"):
-        st.markdown("###  Información del Vehículo")
+        st.markdown("### 📝 Información del Vehículo")
         
         col1, col2 = st.columns(2)
         with col1:
-            patente = st.text_input("**Patente** *", placeholder="Ej: AB123CD").upper()
+            patente = st.text_input(
+                "**Patente** *", 
+                placeholder="Ej: AB123CD",
+                max_chars=7,
+                help="Formato: ABC123 o AB123CD"
+            ).upper()
         with col2:
-            codigo_postal = st.text_input("**Código Postal** *", placeholder="Ej: 1425")
+            codigo_postal = st.text_input(
+                "**Código Postal** *", 
+                placeholder="Ej: 1425",
+                max_chars=4,
+                help="Código postal de 4 dígitos"
+            )
         
         combustible = st.radio(
             "**¿Tiene instalado algún otro tipo de combustible?**",
-            ["Nafta", "GNC", "Gasoil", "Eléctrico"]
+            ["Nafta", "GNC", "Gasoil", "Eléctrico"],
+            horizontal=False
         )
         
-        submitted = st.form_submit_button("🚀 GENERAR COTIZACIÓN POR WHATSAPP", type="primary")
+        submitted = st.form_submit_button("🚀 GENERAR COTIZACIÓN POR WHATSAPP", type="primary", use_container_width=True)
         
         if submitted:
-            if patente and codigo_postal:
-                st.session_state.form_submitted = True
-                st.session_state.form_data = {
-                    'patente': patente,
-                    'codigo_postal': codigo_postal,
-                    'combustible': combustible
-                }
-                st.rerun()
+            errores = []
+            
+            # Validaciones
+            if not patente:
+                errores.append("❌ La patente es obligatoria")
+            elif not validar_patente(patente):
+                errores.append("❌ Formato de patente inválido (use ABC123 o AB123CD)")
+            
+            if not codigo_postal:
+                errores.append("❌ El código postal es obligatorio")
+            elif not validar_codigo_postal(codigo_postal):
+                errores.append("❌ Código postal inválido (debe ser 4 dígitos entre 1000-9999)")
+            
+            if errores:
+                for error in errores:
+                    st.error(error)
             else:
-                st.error("❌ **Por favor completá todos los campos obligatorios (*)**")
+                # Mostrar spinner mientras procesa
+                with st.spinner('⏳ Procesando...'):
+                    st.session_state.form_submitted = True
+                    st.session_state.form_data = {
+                        'patente': patente,
+                        'codigo_postal': codigo_postal,
+                        'combustible': combustible
+                    }
+                st.rerun()
 
 else:
     # RECUPERAR DATOS Y MOSTRAR ÉXITO
