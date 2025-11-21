@@ -344,7 +344,7 @@ _Gracias. Espero mi cotización._"""
 
 # BOTÓN WHATSAPP ALTERNATIVO
 st.markdown("---")
-st.markdown("### 💬 ¿Consultas rápidas?")
+st.markdown("### 💬 ¿Preferís hablar directo?")
 
 mensaje_rapido = "Hola Ramas Seguros! Quiero información sobre seguros vehiculares"
 whatsapp_url_rapido = f"https://wa.me/5491136995733?text={quote(mensaje_rapido)}"
@@ -363,7 +363,7 @@ st.markdown(f"""
         margin: 10px 0;
         font-weight: bold;
     '>
-        💬 CONSULTAS RÁPIDAS POR WHATSAPP
+        💬 CONTACTAR POR WHATSAPP
     </button>
 </a>
 """, unsafe_allow_html=True)
