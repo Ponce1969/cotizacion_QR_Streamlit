@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# CSS personalizado MEJORADO para Safari y móviles
+# CSS personalizado MEJORADO para Safari, móviles y DARK MODE
 st.markdown("""
 <style>
     /* Importar fuente profesional */
@@ -27,25 +27,17 @@ st.markdown("""
         font-family: 'Montserrat', sans-serif !important;
     }
     
-    /* Fondo amarillo tenue para TODA la página */
-    html, body, [data-testid="stAppViewContainer"], .main, .stApp {
-        background: linear-gradient(180deg, #FFFEF7 0%, #FFF9E6 100%) !important;
-        font-family: 'Montserrat', sans-serif;
-    }
-    
-    /* SOLUCIÓN PARA PLACEHOLDERS EN SAFARI */
+    /* SOLUCIÓN PARA PLACEHOLDERS EN SAFARI - usar colores adaptativos */
     .stTextInput input::placeholder {
-        color: #666 !important;
-        opacity: 1 !important;
+        opacity: 0.6 !important;
         font-size: 16px !important;
     }
     
-    /* FORZAR DISPLAY DE LABELS EN SAFARI */
+    /* FORZAR DISPLAY DE LABELS EN SAFARI - sin color fijo */
     .stTextInput label, .stRadio label {
         display: block !important;
         visibility: visible !important;
         font-weight: 600 !important;
-        color: #262730 !important;
         margin-bottom: 8px !important;
     }
     
@@ -58,10 +50,9 @@ st.markdown("""
             }
             
             .stRadio > div {
-                background-color: rgba(255, 254, 247, 0.8) !important;
                 padding: 1rem !important;
                 border-radius: 10px !important;
-                border: 1px solid #FFD700 !important;
+                border: 1px solid var(--primary-color) !important;
             }
         }
     }
@@ -104,15 +95,19 @@ st.markdown("""
         border-color: #128C7E !important;
     }
     
-    /* Header amarillo */
+    /* Header amarillo - ÚNICO con color fijo */
     .header-box {
         background: linear-gradient(135deg, #FFD700, #FFC107);
-        color: black;
+        color: black !important;
         padding: 2.5rem 2rem;
         border-radius: 15px;
         margin-bottom: 2rem;
         text-align: center;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .header-box h1, .header-box p {
+        color: black !important;
     }
     
     /* Títulos y textos */
@@ -121,29 +116,27 @@ st.markdown("""
         font-weight: 700 !important;
     }
     
-    /* Inputs mejorados */
+    /* Inputs mejorados - SIN background fijo */
     .stTextInput > div > div > input {
-        background-color: #FFFEF7 !important;
-        border: 1px solid #FFD700 !important;
+        border: 1px solid var(--primary-color) !important;
         border-radius: 8px !important;
         padding: 0.75rem !important;
         font-size: 16px !important;
     }
     
-    /* Contenedor de formulario */
+    /* Contenedor de formulario - SIN background fijo */
     .stForm {
-        background-color: rgba(255, 254, 247, 0.8) !important;
-        border: 1px solid rgba(255, 215, 0, 0.3) !important;
+        border: 1px solid var(--primary-color) !important;
         border-radius: 15px !important;
         padding: 1.5rem !important;
         margin-bottom: 1.5rem !important;
     }
     
-    /* Cajas de radio buttons */
+    /* Cajas de radio buttons - SIN background fijo */
     .stRadio > div {
-        background-color: rgba(255, 254, 247, 0.4) !important;
         padding: 1rem !important;
         border-radius: 10px !important;
+        border: 1px solid rgba(128, 128, 128, 0.2) !important;
     }
     
     /* Contenedor principal */
@@ -189,10 +182,10 @@ st.markdown(f"""
 
 # TEXTO DE BIENVENIDA
 st.markdown("""
-<h2 style='text-align: center; color: #0066cc; margin-bottom: 1rem;'>
+<h2 style='text-align: center; margin-bottom: 1rem;'>
     ¡Cotizá tu Seguro General!
 </h2>
-<p style='text-align: center; font-size: 1.2rem; color: #555;'>
+<p style='text-align: center; font-size: 1.2rem;'>
     Completá el formulario o contactanos por WhatsApp directamente
 </p>
 """, unsafe_allow_html=True)
@@ -390,7 +383,7 @@ favicon_base64 = get_base64_image("fotos/favicon.ico")
 favicon_html = f'<img src="data:image/x-icon;base64,{favicon_base64}" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">' if favicon_base64 else "🏢"
 
 st.markdown(f"""
-<div style='text-align: center; color: #666; padding: 1.5rem;'>
+<div style='text-align: center; padding: 1.5rem; opacity: 0.7;'>
     <p style='font-size: 1.1rem; margin: 0;'>{favicon_html} <strong>Ramas Seguros Generales</strong> - Protegiendo lo que más importa</p>
     <p style='font-size: 0.9rem; margin: 0.5rem 0 0 0;'>Tu tranquilidad es nuestra prioridad</p>
 </div>
