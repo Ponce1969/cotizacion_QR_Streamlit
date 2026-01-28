@@ -33,12 +33,27 @@ st.markdown("""
         font-size: 16px !important;
     }
     
-    /* FORZAR DISPLAY DE LABELS EN SAFARI - sin color fijo */
+    /* FORZAR DISPLAY DE LABELS EN SAFARI - con mejor contraste */
     .stTextInput label, .stRadio label {
         display: block !important;
         visibility: visible !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         margin-bottom: 8px !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Mejorar contraste de labels en modo claro */
+    @media (prefers-color-scheme: light) {
+        .stTextInput label, .stRadio label {
+            color: #1a1a1a !important;
+        }
+    }
+    
+    /* Mejorar contraste de labels en modo oscuro */
+    @media (prefers-color-scheme: dark) {
+        .stTextInput label, .stRadio label {
+            color: #f0f0f0 !important;
+        }
     }
     
     /* MEJORAS ESPECÍFICAS PARA SAFARI MOBILE */
@@ -137,6 +152,22 @@ st.markdown("""
         padding: 1rem !important;
         border-radius: 10px !important;
         border: 1px solid rgba(128, 128, 128, 0.2) !important;
+    }
+    
+    /* Mejorar contraste de opciones de radio en modo claro */
+    @media (prefers-color-scheme: light) {
+        .stRadio > div label {
+            color: #1a1a1a !important;
+            font-weight: 600 !important;
+        }
+    }
+    
+    /* Mejorar contraste de opciones de radio en modo oscuro */
+    @media (prefers-color-scheme: dark) {
+        .stRadio > div label {
+            color: #f0f0f0 !important;
+            font-weight: 600 !important;
+        }
     }
     
     /* Contenedor principal */
